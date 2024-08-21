@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:score_counter_app/controllers/akropolis_city_controllers.dart';
 import 'package:score_counter_app/models/city.dart';
-import 'package:score_counter_app/widgets/star_and_district_values_widget.dart';
+import 'package:score_counter_app/widgets/akropolis_widgets.dart';
 
 /// Represents the view of the [city]
 class CityView extends StatefulWidget {

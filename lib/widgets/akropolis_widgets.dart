@@ -1,5 +1,5 @@
-import 'package:score_counter_app/models/city.dart';
 import 'package:flutter/material.dart';
+import 'package:score_counter_app/models/city.dart';
 import 'package:flutter/services.dart';
 import 'package:score_counter_app/widgets/akropolis_icon.dart';
 
@@ -109,7 +109,7 @@ class AkropolisStarIconInputWidget extends StatelessWidget {
       child: AkropolisIconIntegerInputWidget(
             color: getColor(category),
             func: _setStar,
-            icon: Icons.star_border, 
+            icon: Icons.star_border,   
       ),
     );
   }
@@ -157,6 +157,33 @@ class AkropolisStonesValuesIconInputWidget extends StatelessWidget {
             func: (numberOfStones) => city.setNumberOfStones(numberOfStones),
             icon: Icons.square, 
       ),
+    );
+  }
+}
+
+
+/// Widget which represent an input for stars and districtsValues
+/// Allow to change data to [city] for [category]
+/// [setByPlaza] set the star by plaza
+class StarAndDistrictValuesWidget extends StatelessWidget{
+
+  const StarAndDistrictValuesWidget({
+    super.key,
+    required this.city,
+    required this.category,
+    this.setByPlaza = true,
+  });
+
+  final CityModel city;
+  final DistrictCategory category;
+  final bool setByPlaza;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+        children: [
+          AkropolisStarIconInputWidget(category: category, city: city,setByPlaza: setByPlaza),
+          AkropolisDistrictValuesIconInputWidget(category: category, city: city)
+        ],
     );
   }
 }
