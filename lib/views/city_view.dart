@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:score_counter_app/models/architect.dart';
 import 'package:score_counter_app/models/city.dart';
 import 'package:score_counter_app/widgets/akropolis_widgets.dart';
 
-/// Represents the view of the [city]
+/// Represents the view of the [city] for an [architect]
 class CityView extends StatefulWidget {
   const CityView({
     super.key,
     required this.city,
+    required this.architect,
   });
 
   final CityModel city;
+  final Architect architect;
 
   @override
   State<CityView> createState() => _CityViewState();
@@ -30,11 +33,11 @@ class _CityViewState extends State<CityView> {
   Widget build(BuildContext context) {
     var city = widget.city;
     city.addListener(_onCityChanged);
-    return SizedBox(
-      height: 450,
+    return Expanded(
       child: Card(
         child: Column(
           children: [
+            ArchitectWidget(architect: widget.architect),
             for(var category in DistrictCategory.values)
               StarAndDistrictValuesWidget(city: city, category: category),
             AkropolisStonesValuesIconInputWidget(city: city,),

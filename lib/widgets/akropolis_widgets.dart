@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:score_counter_app/models/architect.dart';
 import 'package:score_counter_app/models/city.dart';
 import 'package:flutter/services.dart';
 import 'package:score_counter_app/widgets/akropolis_icon.dart';
@@ -166,7 +167,6 @@ class AkropolisStonesValuesIconInputWidget extends StatelessWidget {
 /// Allow to change data to [city] for [category]
 /// [setByPlaza] set the star by plaza
 class StarAndDistrictValuesWidget extends StatelessWidget{
-
   const StarAndDistrictValuesWidget({
     super.key,
     required this.city,
@@ -184,6 +184,33 @@ class StarAndDistrictValuesWidget extends StatelessWidget{
           AkropolisStarIconInputWidget(category: category, city: city,setByPlaza: setByPlaza),
           AkropolisDistrictValuesIconInputWidget(category: category, city: city)
         ],
+    );
+  }
+}
+
+/// Widget which represent an [architect]
+class ArchitectWidget extends StatelessWidget {
+  const ArchitectWidget({
+    super.key,
+    required this.architect,
+  });
+
+  final Architect architect;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Icon(architect.icon,
+        color: architect.color,
+        ),
+        Text(
+          architect.name,
+          style: const TextStyle(fontSize: 24),
+        ),
+      ],
     );
   }
 }
