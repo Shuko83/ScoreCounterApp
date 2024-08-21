@@ -6,6 +6,8 @@ class Architect extends Player{
     required super.name,
     this.gamePlayed = 0,
     this.gameWin = 0,
+    super.color,
+    super.icon,
   });
 
   int gameWin;  
