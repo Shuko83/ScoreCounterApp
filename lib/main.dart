@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:score_counter_app/controllers/yahtzee_controller.dart';
+import 'package:score_counter_app/models/architect.dart';
+import 'package:score_counter_app/models/city.dart';
+import 'package:score_counter_app/models/yahtzee_model.dart';
+import 'package:score_counter_app/views/city_view.dart';
+import 'package:score_counter_app/views/result_widget.dart';
+import 'package:score_counter_app/widgets/yahtzee_widget_input.dart';
 
 void main() {
 
@@ -65,6 +72,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+Architect pauline = Architect(name: "Pauline",color: Colors.blue,icon: Icons.waves);
+Architect fabien = Architect(name: "Fabien",color: Colors.yellow,icon: Icons.male);
+
+CityModel paulineCity = CityModel();
+CityModel fabienCity = CityModel();
+
 
   void _incrementCounter() {
     setState(() {
@@ -98,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Column(
+        child: Row(
           // Column is also a layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its
           // children horizontally, and tries to be as tall as its parent.
@@ -114,13 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            AllInputDiceValuesWidget(controller: YahtzeeController(model: YahtzeeModel())),
           ],
         ),
       ),
