@@ -7,7 +7,7 @@ class YahtzeeModel {
 
   /// Stock the [State] of the [Figures]. 
   /// Si la figure n'est pas dans la map c'est qu'elle n'est pas encore traité.
-  Map<Figures,State> figuresState = {};
+  Map<Figures,YahtzeeState> figuresState = {};
   
   /// Summ of all dice stock in the [maximum] value
   /// 
@@ -34,7 +34,7 @@ enum DiceValue{
 }
 
 /// Represent the differents figures existing in the game Yahtzee 
-enum State{
+enum YahtzeeState{
   Succeed,
   Failed
 }

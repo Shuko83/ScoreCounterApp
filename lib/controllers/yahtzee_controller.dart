@@ -1,3 +1,6 @@
+import 'package:dice_icons/dice_icons.dart';
+import 'package:flutter/material.dart';
+
 import '../models/yahtzee_model.dart';
 
 ///Controller for the model of Yahtzee.
@@ -59,7 +62,7 @@ class YahtzeeController {
     }
   }
 
-  void setFigureState(Figures figure, State state){
+  void setFigureState(Figures figure, YahtzeeState state){
     /// on ne peut ajout une figure dans le model que si elle existe dans la version du jeu
     var availableFigures = figuresForVariant[variant] ?? {};
     if(availableFigures.contains(figure)){
@@ -81,4 +84,23 @@ class YahtzeeController {
 enum Variant{
   Classic,
   Pauline
+}
+
+IconData getDiceIcon(DiceValue value){
+  switch(value){
+    case DiceValue.Dice1:
+    return DiceIcons.dice1;
+    case DiceValue.Dice2:
+    return DiceIcons.dice2;
+    case DiceValue.Dice3:
+    return DiceIcons.dice3;
+    case DiceValue.Dice4:
+    return DiceIcons.dice4;
+    case DiceValue.Dice5:
+    return DiceIcons.dice5;
+    case DiceValue.Dice6:
+    return DiceIcons.dice6;
+    default:
+    return DiceIcons.dice0;
+  }
 }

@@ -54,8 +54,8 @@ class InputDiceValueWidget extends StatelessWidget{
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(diceValue.toString()),  
-        for(var i = 0 ; i < 6 ; ++i)
+        Icon(getDiceIcon(diceValue)),  
+        for(var i = 1 ; i < 7 ; ++i)
           DiceValueWidget(diceValue: diceValue, number: i, controller: controller)
       ],
     );
@@ -74,12 +74,29 @@ class DiceValueWidget extends StatelessWidget{
   final DiceValue diceValue;
   final int number;
   final YahtzeeController controller;
-
+  IconData getIcon(int value){
+    switch(value){
+      case 1:
+      return Icons.one_k;
+      case 2:
+      return Icons.two_k;
+      case 3:
+      return Icons.three_k;
+      case 4:
+      return Icons.four_k;
+      case 5:
+      return Icons.five_k;
+      case 6:
+      return Icons.six_k;
+      default:
+      return Icons.outbond;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () => controller.setDiceNumber(number: number,value: diceValue),
-      child: Text(number.toString()),
+      child: Icon(getIcon(number)),
     );
   }
 }
