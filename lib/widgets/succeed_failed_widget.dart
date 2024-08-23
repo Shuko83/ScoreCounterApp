@@ -1,5 +1,26 @@
 import 'package:flutter/material.dart';
 
+class FigureWidget extends StatelessWidget{
+  FigureWidget({
+    required this.figure,
+  });
+
+  final YamFigures figure;
+  
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      //mainAxisAlignment: MainAxisAlignment.center,
+      //crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(figure.name),
+        SucceedFailedWidget(),
+      ],
+    );
+  }
+
+}
+
 class SucceedFailedWidget extends StatefulWidget{ 
   @override
   State<SucceedFailedWidget> createState() => _SucceedFailedWidgetState();
@@ -91,4 +112,9 @@ class _SucceedFailedWidgetState extends State<SucceedFailedWidget> {
 enum YamState{
   succeed,
   failed,
+}
+enum YamFigures{
+  square,
+  full,
+
 }
