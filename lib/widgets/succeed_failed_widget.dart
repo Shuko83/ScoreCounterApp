@@ -29,12 +29,11 @@ class SucceedFailedWidget extends StatefulWidget{
 class _SucceedFailedWidgetState extends State<SucceedFailedWidget> {
   
   YamState? state;
-  bool editMode = false;
 
 
   void onEditClicked(){
     setState(() {
-      editMode = true;
+      state = null;
     });
   }
 
@@ -46,36 +45,24 @@ class _SucceedFailedWidgetState extends State<SucceedFailedWidget> {
       } else {
         this.state = state;
       }
-      editMode = false;
     });
   }
   
-  final ButtonStyle selectedStyle = ElevatedButton.styleFrom(
-    backgroundColor:const Color.fromARGB(255, 77, 122, 219),
-    );
-  final ButtonStyle unselectedStyle = ElevatedButton.styleFrom(
-    backgroundColor:const Color.fromARGB(255, 236, 236, 236),
-
-    );
   @override
   Widget build(BuildContext context) {
     
-    if(state == null || editMode){
+    if(state == null){
       return Row(
       children: [
         ElevatedButton(
           onPressed: () => {changeState(YamState.succeed)},
-          style: (state != null && state == YamState.succeed)? selectedStyle:unselectedStyle,
           child: Text(YamState.succeed.name,
-          style: TextStyle(color: (state != null && state == YamState.succeed)?Colors.white:Colors.black),
           ),
         ),
         const Spacer(),
         ElevatedButton(
           onPressed: () => {changeState(YamState.failed)},
-          style: (state != null && state == YamState.failed)? selectedStyle:unselectedStyle,
           child: Text(YamState.failed.name,
-          style: TextStyle(color: (state != null && state == YamState.failed)?Colors.white:Colors.black),
           ),
         ),
       ],

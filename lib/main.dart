@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:score_counter_app/widgets/succeed_failed_widget.dart';
+import 'package:score_counter_app/widgets/yam_slider.dart';
 
 void main() {
 
@@ -126,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
             SucceedFailedWidget(),
             SucceedFailedWidget(),
             SucceedFailedWidget(),
-            SucceedFailedWidget(),
+            YamSlider(),
           ],
         ),
       ),
