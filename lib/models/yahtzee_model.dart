@@ -5,9 +5,9 @@ class YahtzeeModel {
   /// Represents the number of dice for the [DiceValue]
   Map<DiceValue,int> numberOfDiceValue = {};
 
-  /// Stock the [State] of the [Figures]. 
+  /// Stock the [State] of the [YahtzeeFigure]. 
   /// Si la figure n'est pas dans la map c'est qu'elle n'est pas encore traité.
-  Map<Figures,YahtzeeState> figuresState = {};
+  Map<YahtzeeFigure,YahtzeeState> figuresState = {};
   
   /// Summ of all dice stock in the [maximum] value
   /// 
@@ -25,32 +25,32 @@ class YahtzeeModel {
 
 /// Represent the differents figures existing in the game Yahtzee 
 enum DiceValue{
-  Dice1,
-  Dice2,
-  Dice3,
-  Dice4,
-  Dice5,
-  Dice6,
+  dice1,
+  dice2,
+  dice3,
+  dice4,
+  dice5,
+  dice6,
 }
 
 /// Represent the differents figures existing in the game Yahtzee 
 enum YahtzeeState{
-  Succeed,
-  Failed
+  succeed,
+  failed
 }
 
 /// Represent the differents figures existing in the game Yahtzee 
-enum Figures{
+enum YahtzeeFigure{
   /// 3 identical dice and 2 more identical dice
-  Full_house,
+  fullHouse,
   /// 4 identical dice
-  Four_of_a_kind,
+  fourOfAKind,
   /// 5 dice consecutive (1,2,3,4,5 or 2,3,4,5,6)
-  Long_straight,
+  longStraight,
   /// 4 dice consecutive (1,2,3,4,5 or 2,3,4,5,6)
-  Small_straight,
+  smallStraight,
   /// 3 dentical dice
-  Three_of_a_kind,
+  threeOfAKind,
   /// 5 identical dice
-  Yahtzee,
+  yahtzee,
 }
