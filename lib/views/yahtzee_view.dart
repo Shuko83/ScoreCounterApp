@@ -9,14 +9,17 @@ class YahtzeeView extends StatelessWidget{
   const YahtzeeView({
     super.key,
     required this.controller,
+    required this.name,
     });
 
   final YahtzeeController controller;
-  
+  final String name;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Center(child: Text(name),),
         for(var diceValue in DiceValue.values)
           DiceValueWidget(
             diceValue: diceValue,
