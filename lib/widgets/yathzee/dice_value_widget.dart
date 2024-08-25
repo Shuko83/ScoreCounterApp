@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:score_counter_app/controllers/yahtzee_controller.dart';
 import 'package:score_counter_app/models/yahtzee_model.dart';
 
+
+
+/// Widget which allow player to set the number of dice for the [diceValue]
 class DiceValueWidget extends StatefulWidget{
   const DiceValueWidget({
     super.key,
@@ -18,12 +21,14 @@ class DiceValueWidget extends StatefulWidget{
 
 class _DiceValueWidgetState extends State<DiceValueWidget> {
 
-  void reset({ required YahtzeeController controller, required DiceValue value}){
+  /// Ask the [controller] to remove the number of dice for [diceValue]
+  void reset({ required YahtzeeController controller, required DiceValue diceValue}){
     setState(() {
-      controller.resetValue(value);
+      controller.resetValue(diceValue);
     });
   }
 
+  /// Ask the [controller] to set the [number] of dice for [diceValue]
   void onValueClicked({ required YahtzeeController controller, required DiceValue value, required int number}){
     setState(() {
       controller.setDiceNumber(number: number, value: value);
@@ -35,6 +40,7 @@ class _DiceValueWidgetState extends State<DiceValueWidget> {
     var controller = widget.controller;
     var diceValue = widget.diceValue;
     var editMode = controller.canSetDiceValue(diceValue);
+    /// In [editMode] create button to select the number of dice to set
     if(editMode){
       return Row(
         children: [
@@ -46,12 +52,12 @@ class _DiceValueWidgetState extends State<DiceValueWidget> {
             ),
         ],
       );
-    } else{
+    } else{ // Else show the number of dice set previously and a button to reset data
       return Row(
         children: [
           Icon(getDiceIcon(diceValue)),
           Text(controller.getvalueForDiceValue(diceValue).toString()),
-          ElevatedButton(onPressed: ()=>{reset(controller: controller,value: diceValue)}, child: const Icon(Icons.edit)),
+          ElevatedButton(onPressed: ()=>{reset(controller: controller,diceValue: diceValue)}, child: const Icon(Icons.edit)),
         ],
       );
     }
