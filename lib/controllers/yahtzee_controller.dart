@@ -27,10 +27,24 @@ class YahtzeeController {
       Variant.classic:{},
   };
 
+  /// Set [number] of dice for the [value] if it's possible
+  void setDiceNumber({required int number, required DiceValue value}){
+    if(!model.numberOfDiceValue.containsKey(value)){
+      model.numberOfDiceValue[value] = number;
+    }
+  }
 
-  ///get
+  /// Return the number of dice for the [value]
+  /// Return 0 if the [value] is not yet set.
+  /// 
+  /// Show [canSetDiceValue] to know if the value is already set.
   int getvalueForDiceValue(DiceValue value){
       return model.numberOfDiceValue[value]?? 0;
+  }
+
+  /// Return true if the controller can set a [value].
+  bool canSetDiceValue(DiceValue value){
+    return !model.numberOfDiceValue.containsKey(value);
   }
 
   /// Clean the model for the specific [value]
@@ -38,6 +52,7 @@ class YahtzeeController {
     model.numberOfDiceValue.remove(value);
   }
 
+  /// Set [value] on the maximum if it's possible
   void setMaximum(int value){
     switch(variant){
       case Variant.pauline:
@@ -48,14 +63,30 @@ class YahtzeeController {
     }
   }
 
+  /// Return the maximum of the model
+  /// Return 0 if the value is not yet set.
+  /// 
+  /// Show [canSetMaximum] to know if the value is already set.
   int getMaximum(){
     return model.maximum??0;
   }
 
-  int getMinimum(){
-    return model.minimum??0;
+  /// Return true if the controller can set the maximum
+  bool canSetMaximum(){
+        switch(variant){
+      case Variant.pauline:
+        return model.maximum == null;
+      default:
+        throw "not yet defined";
+    }
   }
 
+  /// Reset the data save into the maximum
+  void resetMaximum(){
+    model.maximum=null;
+  }
+
+  /// Set [value] on the minimum if it's possible
   void setMinimum(int value){
     switch(variant){
       case Variant.pauline:
@@ -66,15 +97,15 @@ class YahtzeeController {
     }
   }
 
-  void resetMaximum(){
-    model.maximum=null;
+  /// Return the minimum of the model
+  /// Return 0 if the value is not yet set.
+  /// 
+  /// Show [canSetMinimum] to know if the value is already set.
+  int getMinimum(){
+    return model.minimum??0;
   }
 
-  void resetMinimum(){
-    model.minimum=null;
-  }
-
-
+  /// Return true if the controller can set the minimum
   bool canSetMinimum(){
     switch(variant){
       case Variant.pauline:
@@ -84,104 +115,79 @@ class YahtzeeController {
     }
   }
 
-  bool canSetMaximum(){
-        switch(variant){
-      case Variant.pauline:
-        return model.maximum == null;
-      default:
-        throw "not yet defined";
-    }
+  /// Reset the data save into the minimum
+  void resetMinimum(){
+    model.minimum=null;
   }
+    
   /// Return true if the goal for bonus is reach.
   bool bonusSuccess(){
     return distanceToBonus() <= 0;
   }
 
-  /// Return le score qu'il manque pour réussir le bonus.
-  /// TODO traduction
+  /// Return the score needed to add to reach the goal.
   int distanceToBonus(){
-    return 60 - _score;
-  }
+    var scoreNeeded = 0;
+    switch(variant){
+      case Variant.pauline: 
+        scoreNeeded = 60;
+        break;
+      default:
 
-  /// Return true if the controller can set a [value].
-  bool canSetDiceValue(DiceValue value){
-    return !model.numberOfDiceValue.containsKey(value);
-  }
-
-  /// editMode allow controller to change all the data of the model.
-  /// Should be use only to edit an error. For exemple miss clicked and set a figure to failed instead of succeed.
-  bool editMode = false;
-
-  void setDiceNumber({required int number, required DiceValue value}){
-    if(editMode || !model.numberOfDiceValue.containsKey(value)){
-      model.numberOfDiceValue[value] = number;
-      editMode = false;
-      //notify
     }
+    return scoreNeeded - _score;
   }
+
+
   
+  /// Set the [state] for the [figure] if it's possible
+  /// 
+  /// Show [figureCanBeSet] to know if it's possible
   void setFigureState(YahtzeeFigure figure, YahtzeeState state){
     /// on ne peut ajout une figure dans le model que si elle existe dans la version du jeu
     var availableFigures = _figuresForVariant[variant] ?? {};
     if(availableFigures.contains(figure)){
       /// On peut modifier une valeur si on est en editMode
-      if(editMode || !model.figuresState.containsKey(figure)){
+      if(!model.figuresState.containsKey(figure)){
         model.figuresState[figure] = state;
-        editMode = false;
-        //notify();
       }        
     }
   }
   
+  /// Reset the stat of the [figure]
   void resetFigure(YahtzeeFigure figure){
     model.figuresState.remove(figure);
   }
 
+  ///Return true if [figure] can be set
   bool figureCanBeSet(YahtzeeFigure figure){
     return !model.figuresState.containsKey(figure);
   }
 
+  /// Return the state of the [figure] if it's possible
+  YahtzeeState? getState(YahtzeeFigure figure){
+    return model.figuresState[figure];
+  }
+
+  /// Return a set of figure available
+  /// 
+  /// By default return a set for this controller
+  /// Set [variant] to specified a variant.
   Set<YahtzeeFigure> availableFigures({Variant? variant}){
     var v = variant??this.variant;
     Set<YahtzeeFigure> figures = _figuresForVariant[v] ?? {};
     return figures;
   }
 
-  YahtzeeState? getState(YahtzeeFigure figure){
-    return model.figuresState[figure];
-  }
-    
-  bool state = true;
-
-  Widget getWidgetForDiceValue(DiceValue value){
-    //_wigetState state = canSetDiceValue(value)? _wigetState.edit:_wigetState.show;
-    if(state){// == _wigetState.edit){
-      return Row(
-        children: [
-          Text("Edit"),
-          ElevatedButton(onPressed: () => {state = !state}, child: Icon(Icons.edit))
-        ],
-      );
-    } else {
-      return Row(
-        children: [
-          Text("Edit"),
-          ElevatedButton(onPressed: () => {state = !state}, child: Icon(Icons.edit))
-        ],
-      );
-    }
-  }
 }
 
-enum _wigetState{
-  edit,
-  show,
-}
+/// The different variant of Yahtzee implemented
 enum Variant{
   classic,
   pauline
 }
 
+/// Return an icon for the DiceValue [value]
 IconData getDiceIcon(DiceValue value){
   switch(value){
     case DiceValue.dice1:
