@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:score_counter_app/controllers/yahtzee_controller.dart';
 import 'package:score_counter_app/models/yahtzee_model.dart';
+import 'package:score_counter_app/widgets/yathzee/all_dice_value_widget.dart';
 
 class YahtzeeView extends StatelessWidget{
   const YahtzeeView({
@@ -12,11 +13,15 @@ class YahtzeeView extends StatelessWidget{
   
   @override
   Widget build(BuildContext context) {
-    return Text("");
-   /* return SizedBox(
-      height: 350,
-      width: 350,
-      child: controller.getWidgetForDiceValue(DiceValue.dice1));*/
+    return Column(
+      children: [
+        for(var diceValue in DiceValue.values)
+          AllDiceValueWidget(
+            diceValue: diceValue,
+            controller: controller,
+          ),
+      ],
+    );
   }
 
 }

@@ -26,6 +26,12 @@ class YahtzeeController {
       Variant.classic:{},
   };
 
+
+  ///get
+  int getvalueForDiceValue(DiceValue value){
+      return model.numberOfDiceValue[value]?? 0;
+  }
+
   /// Clean the model for the specific [value]
   void resetValue(DiceValue value){
     model.numberOfDiceValue.remove(value);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:score_counter_app/controllers/yahtzee_controller.dart';
 import 'package:score_counter_app/models/yahtzee_model.dart';
-import 'package:score_counter_app/widgets/dice_value_widget.dart';
+import 'package:score_counter_app/widgets/yathzee/dice_value_widget.dart';
 
 class AllDiceValueWidget extends StatefulWidget{
   const AllDiceValueWidget({
@@ -40,20 +40,22 @@ class _AllDiceValueWidgetState extends State<AllDiceValueWidget> {
       return Row(
         children: [
           Icon(getDiceIcon(diceValue)),
-          for(var i = 1 ; i <= 5 ; )
-            DiceValueButton(diceValue: diceValue, number: i, controller: controller, fun: onValueClicked)
+          for(var i = 0 ; i <= 5 ; ++i )
+            ElevatedButton(
+              onPressed: () {onValueClicked(controller: controller, value: diceValue, number: i);},
+              child: Text(i.toString()),
+            ),
         ],
-          );
+      );
     }
     else{
       return Row(
         children: [
           Icon(getDiceIcon(diceValue)),
-          for(var i = 1 ; i <= 5 ; )
-            DiceValueButton(diceValue: diceValue, number: i, controller: controller, fun: onValueClicked),
-          ElevatedButton(onPressed: ()=>{reset(controller: controller,value: diceValue)}, child: Icon(Icons.edit)),
+          Text(controller.getvalueForDiceValue(diceValue).toString()),
+          ElevatedButton(onPressed: ()=>{reset(controller: controller,value: diceValue)}, child: const Icon(Icons.edit)),
         ],
-          );
+      );
     }
     
   }
