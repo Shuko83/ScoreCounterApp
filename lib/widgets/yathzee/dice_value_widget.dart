@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:score_counter_app/controllers/yahtzee_controller.dart';
 import 'package:score_counter_app/models/yahtzee_model.dart';
-import 'package:score_counter_app/widgets/yathzee/dice_value_widget.dart';
 
-class AllDiceValueWidget extends StatefulWidget{
-  const AllDiceValueWidget({
+class DiceValueWidget extends StatefulWidget{
+  const DiceValueWidget({
     super.key,
     required this.controller,
     required this.diceValue,
@@ -14,10 +13,10 @@ class AllDiceValueWidget extends StatefulWidget{
     final DiceValue diceValue;
 
   @override
-  State<AllDiceValueWidget> createState() => _AllDiceValueWidgetState();
+  State<DiceValueWidget> createState() => _DiceValueWidgetState();
 }
 
-class _AllDiceValueWidgetState extends State<AllDiceValueWidget> {
+class _DiceValueWidgetState extends State<DiceValueWidget> {
 
   void reset({ required YahtzeeController controller, required DiceValue value}){
     setState(() {
@@ -47,8 +46,7 @@ class _AllDiceValueWidgetState extends State<AllDiceValueWidget> {
             ),
         ],
       );
-    }
-    else{
+    } else{
       return Row(
         children: [
           Icon(getDiceIcon(diceValue)),
@@ -57,6 +55,5 @@ class _AllDiceValueWidgetState extends State<AllDiceValueWidget> {
         ],
       );
     }
-    
   }
 }

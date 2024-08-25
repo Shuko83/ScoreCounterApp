@@ -1,5 +1,6 @@
 import 'package:dice_icons/dice_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:score_counter_app/views/yahtzee_view.dart';
 
 import '../models/yahtzee_model.dart';
 
@@ -37,6 +38,60 @@ class YahtzeeController {
     model.numberOfDiceValue.remove(value);
   }
 
+  void setMaximum(int value){
+    switch(variant){
+      case Variant.pauline:
+        model.maximum??=value;
+        break;
+      default:
+        throw "not yet defined";
+    }
+  }
+
+  int getMaximum(){
+    return model.maximum??0;
+  }
+
+  int getMinimum(){
+    return model.minimum??0;
+  }
+
+  void setMinimum(int value){
+    switch(variant){
+      case Variant.pauline:
+        model.minimum??=value;
+        break;
+      default:
+        throw "not yet defined";
+    }
+  }
+
+  void resetMaximum(){
+    model.maximum=null;
+  }
+
+  void resetMinimum(){
+    model.minimum=null;
+  }
+
+
+  bool canSetMinimum(){
+    switch(variant){
+      case Variant.pauline:
+        return model.minimum == null;
+      default:
+        throw "not yet defined";
+    }
+  }
+
+  bool canSetMaximum(){
+        switch(variant){
+      case Variant.pauline:
+        return model.maximum == null;
+      default:
+        throw "not yet defined";
+    }
+  }
   /// Return true if the goal for bonus is reach.
   bool bonusSuccess(){
     return distanceToBonus() <= 0;
@@ -65,34 +120,6 @@ class YahtzeeController {
     }
   }
   
-  void setMinimum(int value){
-    switch(variant){
-      case Variant.pauline:
-        if(editMode || model.minimum == null){
-            model.minimum = value;
-            editMode = false;
-            //notify
-        }
-      break;
-      default:
-        throw ('Can\'t set a minimum value for variant ${variant.toString()}');
-    }
-  }
-
-  void setMaximum(int value){
-    switch(variant){
-      case Variant.pauline:
-        if(editMode || model.maximum == null){
-            model.maximum = value;
-            editMode = false;
-            //notify
-        }
-      break;
-      default:
-        throw ('Can\'t set a maximum value for variant ${variant.toString()}');
-    }
-  }
-
   void setFigureState(YahtzeeFigure figure, YahtzeeState state){
     /// on ne peut ajout une figure dans le model que si elle existe dans la version du jeu
     var availableFigures = _figuresForVariant[variant] ?? {};
