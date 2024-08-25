@@ -141,8 +141,9 @@ class YahtzeeController {
     return !model.figuresState.containsKey(figure);
   }
 
-  Set<YahtzeeFigure> availableFigures(Variant variant){
-    Set<YahtzeeFigure> figures = _figuresForVariant[variant] ?? {};
+  Set<YahtzeeFigure> availableFigures({Variant? variant}){
+    var v = variant??this.variant;
+    Set<YahtzeeFigure> figures = _figuresForVariant[v] ?? {};
     return figures;
   }
 
