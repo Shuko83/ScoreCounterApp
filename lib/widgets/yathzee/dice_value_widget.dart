@@ -21,17 +21,17 @@ class DiceValueWidget extends StatefulWidget{
 
 class _DiceValueWidgetState extends State<DiceValueWidget> {
 
-  /// Ask the [controller] to remove the number of dice for [diceValue]
-  void reset({ required YahtzeeController controller, required DiceValue diceValue}){
+  /// Ask the controller to remove the number of dice for diceValue
+  void reset(){
     setState(() {
-      controller.resetValue(diceValue);
+      widget.controller.resetValue(widget.diceValue);
     });
   }
 
-  /// Ask the [controller] to set the [number] of dice for [diceValue]
-  void onValueClicked({ required YahtzeeController controller, required DiceValue value, required int number}){
+  /// Ask the controller to set the [number] of dice for diceValue
+  void onValueClicked(int number){
     setState(() {
-      controller.setDiceNumber(number: number, value: value);
+      widget.controller.setDiceNumber(number: number, value: widget.diceValue);
     });
   }
 
@@ -47,7 +47,7 @@ class _DiceValueWidgetState extends State<DiceValueWidget> {
           Icon(getDiceIcon(diceValue)),
           for(var i = 0 ; i <= 5 ; ++i )
             ElevatedButton(
-              onPressed: () {onValueClicked(controller: controller, value: diceValue, number: i);},
+              onPressed: () => onValueClicked(i),
               child: Text(i.toString()),
             ),
         ],
@@ -57,7 +57,7 @@ class _DiceValueWidgetState extends State<DiceValueWidget> {
         children: [
           Icon(getDiceIcon(diceValue)),
           Text(controller.getvalueForDiceValue(diceValue).toString()),
-          ElevatedButton(onPressed: ()=>{reset(controller: controller,diceValue: diceValue)}, child: const Icon(Icons.edit)),
+          ElevatedButton(onPressed: ()=> reset, child: const Icon(Icons.edit)),
         ],
       );
     }
