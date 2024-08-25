@@ -1,5 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:score_counter_app/controllers/yahtzee_controller.dart';
+import 'package:score_counter_app/models/yahtzee_model.dart';
+import 'package:score_counter_app/views/yahtzee_view.dart';
 
 void main() {
 
@@ -64,8 +69,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
+  bool editMode = false;
+  YahtzeeController controller = YahtzeeController(model: YahtzeeModel());
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -73,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+      editMode = true;
     });
   }
 
@@ -114,21 +119,17 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            //AllDiceValueWidget(controller: YahtzeeController(model: YahtzeeModel()),diceValue: DiceValue.dice1),
+            //YahtzeeView(controller: YahtzeeController(model: YahtzeeModel())),
+            /*SizedBox(
+              height: 350,
+              width: 350,
+              child: DiceValueWidget(diceValue: DiceValue.dice1, controller: controller,number: 1,)),*/
+            //FigureWidget(figure: YahtzeeFigures.fullHouse,controller: controller,),
+            YahtzeeView(controller: controller,name: "Pauline",),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ) // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
