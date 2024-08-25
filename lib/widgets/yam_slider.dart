@@ -33,7 +33,8 @@ class _YamSliderState extends State<YamSlider> {
       return Row(
         children: [
           Text(value.toString()),
-          ElevatedButton(onPressed: onEditClicked, child: Icon(Icons.edit)),
+          const Spacer(),
+          ElevatedButton(onPressed: onEditClicked, child: const Icon(Icons.edit)),
         ],
       );
     }
@@ -48,12 +49,11 @@ class _YamSliderState extends State<YamSlider> {
           label: _currentSliderValue.round().toString(),
           onChanged: (double value) {
             setState(() {
-              print("changed");
               _currentSliderValue = value;
             });
           },
         ),
-        ElevatedButton(onPressed: onClicked, child: Icon(Icons.check_circle_outline))
+        ElevatedButton(onPressed: onClicked, child: const Icon(Icons.check_circle_outline))
         ],
       );
     }

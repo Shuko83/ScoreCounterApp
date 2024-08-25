@@ -3,24 +3,49 @@ import 'package:flutter/material.dart';
 
 import '../models/yahtzee_model.dart';
 
-///Controller for the model of Yahtzee.
+/// Controller for the model of Yahtzee.
+/// Can control of the variant of Yahtzee 
 class YahtzeeController {
   YahtzeeController({
     required this.model,
-    this.variant = Variant.Pauline, 
+    this.variant = Variant.pauline, 
   });
 
   final YahtzeeModel model;
   final Variant variant;
 
-  Map<Variant,Set<Figures>> figuresForVariant = {
-    Variant.Pauline : {
-      Figures.Four_of_a_kind,
-      Figures.Full_house,
-      Figures.Long_straight,
-      Figures.Yahtzee,},
-      Variant.Classic:{},
+  int _score = 0;
+
+  
+  final Map<Variant,Set<YahtzeeFigure>> _figuresForVariant = {
+    Variant.pauline : {
+      YahtzeeFigure.fourOfAKind,
+      YahtzeeFigure.fullHouse,
+      YahtzeeFigure.longStraight,
+      YahtzeeFigure.yahtzee,},
+      Variant.classic:{},
   };
+
+  /// Clean the model for the specific [value]
+  void resetValue(DiceValue value){
+    model.numberOfDiceValue.remove(value);
+  }
+
+  /// Return true if the goal for bonus is reach.
+  bool bonusSuccess(){
+    return distanceToBonus() <= 0;
+  }
+
+  /// Return le score qu'il manque pour réussir le bonus.
+  /// TODO traduction
+  int distanceToBonus(){
+    return 60 - _score;
+  }
+
+  /// Return true if the controller can set a [value].
+  bool canSetDiceValue(DiceValue value){
+    return !model.numberOfDiceValue.containsKey(value);
+  }
 
   /// editMode allow controller to change all the data of the model.
   /// Should be use only to edit an error. For exemple miss clicked and set a figure to failed instead of succeed.
@@ -36,7 +61,7 @@ class YahtzeeController {
   
   void setMinimum(int value){
     switch(variant){
-      case Variant.Pauline:
+      case Variant.pauline:
         if(editMode || model.minimum == null){
             model.minimum = value;
             editMode = false;
@@ -50,7 +75,7 @@ class YahtzeeController {
 
   void setMaximum(int value){
     switch(variant){
-      case Variant.Pauline:
+      case Variant.pauline:
         if(editMode || model.maximum == null){
             model.maximum = value;
             editMode = false;
@@ -62,9 +87,9 @@ class YahtzeeController {
     }
   }
 
-  void setFigureState(Figures figure, YahtzeeState state){
+  void setFigureState(YahtzeeFigure figure, YahtzeeState state){
     /// on ne peut ajout une figure dans le model que si elle existe dans la version du jeu
-    var availableFigures = figuresForVariant[variant] ?? {};
+    var availableFigures = _figuresForVariant[variant] ?? {};
     if(availableFigures.contains(figure)){
       /// On peut modifier une valeur si on est en editMode
       if(editMode || !model.figuresState.containsKey(figure)){
@@ -75,30 +100,67 @@ class YahtzeeController {
     }
   }
   
-  Set<Figures> availableFigures(Variant variant){
-    Set<Figures> figures = figuresForVariant[variant] ?? {};
+  void resetFigure(YahtzeeFigure figure){
+    model.figuresState.remove(figure);
+  }
+
+  bool figureCanBeSet(YahtzeeFigure figure){
+    return !model.figuresState.containsKey(figure);
+  }
+
+  Set<YahtzeeFigure> availableFigures(Variant variant){
+    Set<YahtzeeFigure> figures = _figuresForVariant[variant] ?? {};
     return figures;
+  }
+
+  YahtzeeState? getState(YahtzeeFigure figure){
+    return model.figuresState[figure];
+  }
+    
+  bool state = true;
+
+  Widget getWidgetForDiceValue(DiceValue value){
+    //_wigetState state = canSetDiceValue(value)? _wigetState.edit:_wigetState.show;
+    if(state){// == _wigetState.edit){
+      return Row(
+        children: [
+          Text("Edit"),
+          ElevatedButton(onPressed: () => {state = !state}, child: Icon(Icons.edit))
+        ],
+      );
+    } else {
+      return Row(
+        children: [
+          Text("Edit"),
+          ElevatedButton(onPressed: () => {state = !state}, child: Icon(Icons.edit))
+        ],
+      );
+    }
   }
 }
 
+enum _wigetState{
+  edit,
+  show,
+}
 enum Variant{
-  Classic,
-  Pauline
+  classic,
+  pauline
 }
 
 IconData getDiceIcon(DiceValue value){
   switch(value){
-    case DiceValue.Dice1:
+    case DiceValue.dice1:
     return DiceIcons.dice1;
-    case DiceValue.Dice2:
+    case DiceValue.dice2:
     return DiceIcons.dice2;
-    case DiceValue.Dice3:
+    case DiceValue.dice3:
     return DiceIcons.dice3;
-    case DiceValue.Dice4:
+    case DiceValue.dice4:
     return DiceIcons.dice4;
-    case DiceValue.Dice5:
+    case DiceValue.dice5:
     return DiceIcons.dice5;
-    case DiceValue.Dice6:
+    case DiceValue.dice6:
     return DiceIcons.dice6;
     default:
     return DiceIcons.dice0;
