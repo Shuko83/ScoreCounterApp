@@ -56,6 +56,7 @@ class _DiceValueWidgetState extends State<DiceValueWidget> {
       return Row(
         children: [
           Icon(getDiceIcon(diceValue)),
+          Spacer(),
           Text(controller.getvalueForDiceValue(diceValue).toString()),
           ElevatedButton(onPressed: ()=> reset, child: const Icon(Icons.edit)),
         ],

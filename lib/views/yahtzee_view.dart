@@ -3,7 +3,7 @@ import 'package:score_counter_app/controllers/yahtzee_controller.dart';
 import 'package:score_counter_app/models/yahtzee_model.dart';
 import 'package:score_counter_app/widgets/yathzee/dice_value_widget.dart';
 import 'package:score_counter_app/widgets/yathzee/figure_widget.dart';
-import 'package:score_counter_app/widgets/yathzee/yahtzee_slider.dart';
+import 'package:score_counter_app/widgets/yathzee/yahtzee_slider_widget.dart';
 
 class YahtzeeView extends StatelessWidget{
   const YahtzeeView({

@@ -47,12 +47,12 @@ class _FigureWidgetState extends State<FigureWidget> {
       return Row(
         children: [
           Text(widget.figure.name),
+          Spacer(),
           ElevatedButton(
             onPressed: () => {changeState(YahtzeeState.succeed)},
             child: Text(YahtzeeState.succeed.name,
             ),
           ),
-          const Spacer(),
           ElevatedButton(
             onPressed: () => {changeState(YahtzeeState.failed)},
             child: Text(YahtzeeState.failed.name,
@@ -64,9 +64,9 @@ class _FigureWidgetState extends State<FigureWidget> {
       return Row(
           children: [
           Text(widget.figure.name),
+          Spacer(),
             Icon(icon,
             color: iconColor,),
-            const Spacer(),
             ElevatedButton(
               onPressed: resetFigure,
               child: const Icon(Icons.edit),
