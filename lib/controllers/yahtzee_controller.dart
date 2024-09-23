@@ -1,7 +1,5 @@
 import 'package:dice_icons/dice_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:score_counter_app/views/yahtzee_view.dart';
-
 import '../models/yahtzee_model.dart';
 
 /// Controller for the model of Yahtzee.
@@ -15,9 +13,120 @@ class YahtzeeController {
   final YahtzeeModel model;
   final Variant variant;
 
-  int _score = 0;
+  int _scoreForDiceValues = 0;
 
+  Set<FiguresListener> _figuresListeners = {};
+  Set<ValuesListener> _valuesListener = {};
+  Set<DifferenceListener> _differencesListener = {};
+
+  /// Method that notify all figures listeners
+  void _notifyFiguresListeners(){
+    for (var listener in _figuresListeners){
+      listener.onFigureChanged();
+    }
+  }
   
+  /// Method that notify all values listeners
+  void _updateValueScore(){
+    _scoreForDiceValues = 0;
+    for(var it in model.numberOfDiceValue.entries){
+      var numberOfDice = it.value;
+      var sccoreForDiceValue = 0;
+      switch(it.key){
+        case DiceValue.dice1:
+        sccoreForDiceValue=1;
+        break;
+        case DiceValue.dice2:
+        sccoreForDiceValue=2;
+        break;
+        case DiceValue.dice3:
+        sccoreForDiceValue=3;
+        break;
+        case DiceValue.dice4:
+        sccoreForDiceValue=4;
+        break;
+        case DiceValue.dice5:
+        sccoreForDiceValue=5;
+        break;
+        case DiceValue.dice6:
+        sccoreForDiceValue=6;
+        break;
+      }
+    _scoreForDiceValues += sccoreForDiceValue * numberOfDice;
+    }
+    _notifyValuesListeners();
+  }
+
+    /// Method that notify all values listeners
+  void _notifyValuesListeners(){
+    for (var listener in _valuesListener){
+      listener.onValueChanged();
+    }
+  }
+  
+  /// Method that notify all difference listeners
+  void _notifyDifferenceListeners(){
+    for (var listener in _differencesListener){
+      listener.onDifferenceChanged();
+    }
+  }
+
+
+  /// Register [listener] if it not yet register.
+  /// Return true if the listener is added, false otherwise.
+  /// 
+  /// If [notifyHistory], if [listener] is added, it's notify like a changed occured. 
+  bool registerFiguresListeners(FiguresListener listener, {bool notifyHistory = false}){
+    bool listenerAdded = _figuresListeners.add(listener);
+    if(listenerAdded && notifyHistory){
+      listener.onFigureChanged();
+    }
+    return listenerAdded;
+  }
+
+  /// Unregister [listener] if it's register.
+  /// Return true if the listener is removed, false otherwise. 
+  bool unregisterFiguresListeners(FiguresListener listener){
+    return _figuresListeners.remove(listener);
+  }
+
+  /// Register [listener] if it not yet register.
+  /// Return true if the listener is added, false otherwise.
+  /// 
+  /// If [notifyHistory], if [listener] is added, it's notify like a changed occured. 
+  bool registerValuesListeners(ValuesListener listener, {bool notifyHistory = false}){
+    bool listenerAdded = _valuesListener.add(listener);
+    if(listenerAdded && notifyHistory){
+      listener.onValueChanged();
+    }
+    return listenerAdded;
+  }
+
+  /// Unregister [listener] if it's register.
+  /// Return true if the listener is removed, false otherwise. 
+  bool unregisterValuesListeners(ValuesListener listener){
+    return _valuesListener.remove(listener);
+  }
+  
+  /// Register [listener] if it not yet register.
+  /// Return true if the listener is added, false otherwise.
+  /// 
+  /// If [notifyHistory], if [listener] is added, it's notify like a changed occured. 
+  bool registerDifferenceListeners(DifferenceListener listener, {bool notifyHistory = false}){
+    bool listenerAdded = _differencesListener.add(listener);
+    if(listenerAdded && notifyHistory){
+      listener.onDifferenceChanged();
+    }
+    return listenerAdded;
+  }
+
+  /// Unregister [listener] if it's register.
+  /// Return true if the listener is removed, false otherwise. 
+  bool unregisterDifferenceListeners(DifferenceListener listener){
+    return _differencesListener.remove(listener);
+  }
+
+
   final Map<Variant,Set<YahtzeeFigure>> _figuresForVariant = {
     Variant.pauline : {
       YahtzeeFigure.fourOfAKind,
@@ -31,6 +140,7 @@ class YahtzeeController {
   void setDiceNumber({required int number, required DiceValue value}){
     if(!model.numberOfDiceValue.containsKey(value)){
       model.numberOfDiceValue[value] = number;
+      _updateValueScore();
     }
   }
 
@@ -50,6 +160,7 @@ class YahtzeeController {
   /// Clean the model for the specific [value]
   void resetValue(DiceValue value){
     model.numberOfDiceValue.remove(value);
+    _updateValueScore();
   }
 
   /// Set [value] on the maximum if it's possible
@@ -57,6 +168,7 @@ class YahtzeeController {
     switch(variant){
       case Variant.pauline:
         model.maximum??=value;
+        _notifyDifferenceListeners();
         break;
       default:
         throw "not yet defined";
@@ -91,6 +203,7 @@ class YahtzeeController {
     switch(variant){
       case Variant.pauline:
         model.minimum??=value;
+        _notifyDifferenceListeners();
         break;
       default:
         throw "not yet defined";
@@ -135,7 +248,7 @@ class YahtzeeController {
       default:
 
     }
-    return scoreNeeded - _score;
+    return scoreNeeded - _scoreForDiceValues;
   }
 
 
@@ -150,6 +263,7 @@ class YahtzeeController {
       /// On peut modifier une valeur si on est en editMode
       if(!model.figuresState.containsKey(figure)){
         model.figuresState[figure] = state;
+        _notifyFiguresListeners();
       }        
     }
   }
@@ -157,6 +271,7 @@ class YahtzeeController {
   /// Reset the stat of the [figure]
   void resetFigure(YahtzeeFigure figure){
     model.figuresState.remove(figure);
+    _notifyFiguresListeners();
   }
 
   ///Return true if [figure] can be set
@@ -205,4 +320,19 @@ IconData getDiceIcon(DiceValue value){
     default:
     return DiceIcons.dice0;
   }
+}
+
+/// Interface for a listener which is notify when the difference changed.
+abstract class DifferenceListener{
+  void onDifferenceChanged();
+}
+
+/// Interface for a listener which is notify when a figure changed.
+abstract class FiguresListener{
+  void onFigureChanged();
+}
+
+/// Interface for a listener which is notify when a value changed.
+abstract class ValuesListener{
+  void onValueChanged();
 }
