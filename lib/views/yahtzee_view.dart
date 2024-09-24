@@ -3,6 +3,7 @@ import 'package:score_counter_app/controllers/yahtzee_controller.dart';
 import 'package:score_counter_app/models/yahtzee_model.dart';
 import 'package:score_counter_app/widgets/yathzee/dice_value_widget.dart';
 import 'package:score_counter_app/widgets/yathzee/figure_widget.dart';
+import 'package:score_counter_app/widgets/yathzee/yahtzee_bonus_widget.dart';
 import 'package:score_counter_app/widgets/yathzee/yahtzee_slider_widget.dart';
 
 class YahtzeeView extends StatelessWidget{
@@ -25,7 +26,7 @@ class YahtzeeView extends StatelessWidget{
             diceValue: diceValue,
             controller: controller,
           ),
-          //widget for bonus,
+          YahtzeeBonusWidget(controller: controller),
           YahtzeeSliderWidget(controller: controller,type: SliderType.maximum,),
           YahtzeeSliderWidget(controller: controller,type: SliderType.minimum,),
           for(var figure in controller.availableFigures())
