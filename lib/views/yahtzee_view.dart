@@ -18,6 +18,11 @@ class YahtzeeView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    var customDivider = const Divider(
+            thickness: 2,        // Épaisseur de la ligne
+            indent: 20,          // Marge à gauche
+            endIndent: 20,       // Marge à droite
+          );
     return Column(
       children: [
         Center(child: Text(name),),
@@ -27,8 +32,10 @@ class YahtzeeView extends StatelessWidget{
             controller: controller,
           ),
           YahtzeeBonusWidget(controller: controller),
+          customDivider,
           YahtzeeSliderWidget(controller: controller,type: SliderType.maximum,),
           YahtzeeSliderWidget(controller: controller,type: SliderType.minimum,),
+          customDivider,
           for(var figure in controller.availableFigures())
             FigureWidget(controller: controller, figure: figure),
       ],
