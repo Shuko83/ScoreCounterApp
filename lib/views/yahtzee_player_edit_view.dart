@@ -27,7 +27,7 @@ class YahtzeePlayerEditView extends StatelessWidget{
       children: [
         Center(child: Text(name),),
         for(var diceValue in DiceValue.values)
-          DiceValueWidget(
+          DiceValueEditWidget(
             diceValue: diceValue,
             controller: controller,
           ),

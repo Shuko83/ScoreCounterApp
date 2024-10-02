@@ -5,8 +5,8 @@ import 'package:score_counter_app/models/yahtzee_model.dart';
 
 
 /// Widget which allow player to set the number of dice for the [diceValue]
-class DiceValueWidget extends StatefulWidget{
-  const DiceValueWidget({
+class DiceValueEditWidget extends StatefulWidget{
+  const DiceValueEditWidget({
     super.key,
     required this.controller,
     required this.diceValue,
@@ -16,10 +16,10 @@ class DiceValueWidget extends StatefulWidget{
     final DiceValue diceValue;
 
   @override
-  State<DiceValueWidget> createState() => _DiceValueWidgetState();
+  State<DiceValueEditWidget> createState() => _DiceValueEditWidgetState();
 }
 
-class _DiceValueWidgetState extends State<DiceValueWidget> {
+class _DiceValueEditWidgetState extends State<DiceValueEditWidget> {
 
   /// Ask the controller to remove the number of dice for diceValue
   void reset(){
