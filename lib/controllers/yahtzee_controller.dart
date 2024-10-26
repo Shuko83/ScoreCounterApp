@@ -245,6 +245,36 @@ class YahtzeeController {
     return bonusSuccess? _getScoreForSuccessBonus(variant) : 0;
   }
 
+  /// Return the total score for all available figures
+  int get totalScoreForFigures {
+    var score = 0;
+    for (var figure in availableFigures){
+      score += getFigureScore(figure: figure);
+    }
+    return score;
+  }
+
+  /// Return the total score for all dice Value
+  int get subTotalScoreForDiceValue {
+    var score = 0;
+        for (var diceValue in DiceValue.values){
+      score += getValueScoreForDiceValue(diceValue);
+    }
+    return score;
+  }
+
+  /// Return the total score for all dice Value and bonus
+  int get totalScoreForDiceValue {
+    var score = bonusSuccess?_getScoreForSuccessBonus(variant):0;
+    score += subTotalScoreForDiceValue;
+    return score;
+  }
+
+  /// Return the total score
+  int get totalScore {
+    return totalScoreForDiceValue + totalScoreForFigures + (difference??0);
+  }
+
   /// ----------- Internal model
 
   /// Return the difference if it exist null.
