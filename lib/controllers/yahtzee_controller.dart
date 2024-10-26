@@ -240,6 +240,11 @@ class YahtzeeController {
     return model.figuresState[figure];
   }
 
+  /// Return the score for bonus
+  int get scoreForBonus{
+    return bonusSuccess? _getScoreForSuccessBonus(variant) : 0;
+  }
+
   /// ----------- Internal model
 
   /// Return the difference if it exist null.
@@ -362,6 +367,16 @@ class YahtzeeController {
       default:
     }
   return point; 
+  }
+
+  /// Return the score for success bonus for [variant]
+  int _getScoreForSuccessBonus(Variant variant){
+    switch (variant) {
+      case Variant.pauline:
+          return 30;
+      default:
+      throw "Not yet implemented";
+    }
   }
 }
 
