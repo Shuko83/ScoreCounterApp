@@ -44,7 +44,7 @@ class _YahtzeeBonusWidgetState extends State<YahtzeeBonusWidget> implements Valu
   }
   @override
   Widget build(BuildContext context) {
-    if(widget.controller.bonusSuccess()){
+    if(widget.controller.bonusSuccess){
       return const Row(
         children: [
           Text("Bonus achieve."),

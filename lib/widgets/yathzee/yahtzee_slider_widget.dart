@@ -29,10 +29,10 @@ class _YahtzeeSliderWidgetState extends State<YahtzeeSliderWidget> {
     setState(() {
       switch(widget.type){
         case SliderType.maximum:
-          widget.controller.setMaximum(value.toInt());
+          widget.controller.maximum = value.toInt();
           break;
         case SliderType.minimum:
-          widget.controller.setMinimum(value.toInt());
+          widget.controller.minimum = value.toInt();
           break;
         default:
           throw "Not yet implemented";
@@ -60,9 +60,9 @@ class _YahtzeeSliderWidgetState extends State<YahtzeeSliderWidget> {
   int valueToShow(){
     switch(widget.type){
         case SliderType.maximum:
-          return widget.controller.getMaximum();
+          return widget.controller.maximum;
         case SliderType.minimum:
-          return widget.controller.getMinimum();
+          return widget.controller.minimum;
         default:
           throw "Not yet implemented";
       }

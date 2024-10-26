@@ -36,7 +36,7 @@ class YahtzeePlayerEditView extends StatelessWidget{
           YahtzeeSliderWidget(controller: controller,type: SliderType.maximum,),
           YahtzeeSliderWidget(controller: controller,type: SliderType.minimum,),
           divider,
-          for(var figure in controller.availableFigures())
+          for(var figure in controller.availableFigures)
             FigureEditWidget(controller: controller, figure: figure),
       ],
     );

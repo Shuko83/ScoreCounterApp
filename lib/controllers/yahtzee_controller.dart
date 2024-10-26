@@ -21,7 +21,7 @@ class YahtzeeController {
   Set<ValuesListener> _valuesListener = {};
   Set<DifferenceListener> _differencesListener = {};
 
-  final Map<Variant,Set<YahtzeeFigure>> _figuresForVariant = {
+  static final Map<Variant,Set<YahtzeeFigure>> _figuresForVariant = {
     Variant.pauline : {
       YahtzeeFigure.fourOfAKind,
       YahtzeeFigure.fullHouse,
@@ -136,7 +136,7 @@ class YahtzeeController {
   }
 
   /// Set [value] on the maximum if it's possible
-  void setMaximum(int value){
+  set maximum(int value){
     switch(variant){
       case Variant.pauline:
         model.maximum??=value;
@@ -152,7 +152,7 @@ class YahtzeeController {
   /// Return 0 if the value is not yet set.
   /// 
   /// Show [canSetMaximum] to know if the value is already set.
-  int getMaximum(){
+  int get maximum{
     return model.maximum??0;
   }
 
@@ -173,7 +173,7 @@ class YahtzeeController {
   }
 
   /// Set [value] on the minimum if it's possible
-  void setMinimum(int value){
+  set minimum(int value){
     switch(variant){
       case Variant.pauline:
         model.minimum??=value;
@@ -189,7 +189,7 @@ class YahtzeeController {
   /// Return 0 if the value is not yet set.
   /// 
   /// Show [canSetMinimum] to know if the value is already set.
-  int getMinimum(){
+  int get minimum{
     return model.minimum??0;
   }
 
@@ -244,7 +244,7 @@ class YahtzeeController {
 
   /// Return the difference if it exist null.
   /// It's the difference between the maximum and the minimum.
-  int? getDifference(){
+  int? get difference{
     return _difference;
   }
 
@@ -260,7 +260,7 @@ class YahtzeeController {
   }
   
   /// Return true if the goal for bonus is reach.
-  bool bonusSuccess(){
+  bool get bonusSuccess{
     return distanceToBonus() <= 0;
   }
 
@@ -329,13 +329,12 @@ class YahtzeeController {
     return _getPointForFigure(figure: figure, variant: variant);
   }
 
-  /// Return a set of figure available
-  /// 
-  /// By default return a set for this controller
-  /// Set [variant] to specified a variant.
-  Set<YahtzeeFigure> availableFigures({Variant? variant}){
-    var v = variant??this.variant;
-    Set<YahtzeeFigure> figures = _figuresForVariant[v] ?? {};
+  /// Return a set of figure available for the controller.
+  Set<YahtzeeFigure> get availableFigures => getAvailableFigures(variant);
+
+  /// Return a set of figure available for [variant].
+  static Set<YahtzeeFigure> getAvailableFigures(Variant variant){
+    Set<YahtzeeFigure> figures = _figuresForVariant[variant] ?? {};
     return figures;
   }
   
