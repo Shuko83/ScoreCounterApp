@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:score_counter_app/controllers/yahtzee_controller.dart';
 import 'package:score_counter_app/models/yahtzee_model.dart';
+import 'package:score_counter_app/yahtzee_game.dart';
 
 class YahtzeePlayersResultView extends StatelessWidget{
   const YahtzeePlayersResultView({
     super.key,
-    required this.controllers,
-    required this.variant,
+    required this.game,
     });
 
-    final Set<YahtzeeController> controllers;
-    final Variant variant;
+    final YahtzeeGame game;
 
   TableRow _buildTableRow({ required String title, required int Function(YahtzeeController) getValue, required BuildContext context, required int level}){
     var theme = Theme.of(context).colorScheme;
@@ -38,7 +37,7 @@ class YahtzeePlayersResultView extends StatelessWidget{
       decoration: BoxDecoration(color: rowColor),
       children: [
         Text(title, style: style),
-        for (var controller in controllers) 
+        for (var controller in game.controllers.values) 
           Center(
             child: Text(getValue(controller).toString(),
                 style: style
@@ -56,8 +55,8 @@ class YahtzeePlayersResultView extends StatelessWidget{
         TableRow(
           children: <Widget>[
             const Text(""),
-            for(var i = 0 ; i < controllers.length ; ++i )
-              Text('Player $i'),
+            for(var player in game.controllers.keys)
+              Text(player.name),
           ],
         ),
         for(var diceValue in DiceValue.values)
@@ -96,7 +95,7 @@ class YahtzeePlayersResultView extends StatelessWidget{
             getValue: (controller) => controller.difference??0,
             context: context,
             level: 2,),
-          for(var figure in YahtzeeController.getAvailableFigures(variant))
+          for(var figure in YahtzeeController.getAvailableFigures(game.variant))
           _buildTableRow(
             title: figure.name, 
             getValue: (controller) => controller.getFigureScore(figure: figure),
